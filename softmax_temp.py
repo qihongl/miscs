@@ -14,15 +14,19 @@ n_bs = len(betas)
 x = np.array(x)
 
 b_pal = sns.color_palette('RdBu', n_colors=n_bs)
-f, ax = plt.subplots(1, 1, figsize=(5, 5))
+f, ax = plt.subplots(1, 1, figsize=(8, 5))
 
 for i, beta in enumerate(betas):
     y = softmax(x/beta)
     ax.plot(y, color=b_pal[i])
 
 ax.plot(x, color='k')
-f.legend([b for b in betas]+['raw'])
 
-# ax.set_ylim([0, 1])
+f.legend([b for b in betas]+['raw'], title='temp')
+ax.set_title('Softmax with different temperature')
+ax.set_ylabel('Prob')
+ax.set_xlabel('Actions')
+ax.set_xticks(range(len(x)))
+ax.set_xticklabels(range(len(x)))
 sns.despine()
 f.tight_layout()
