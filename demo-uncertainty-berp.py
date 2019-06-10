@@ -25,22 +25,27 @@ def entropy(d_, base=2):
 
 
 # generate some distributions [p, 1-p]
-n_points = 100
+n_points = 1000
 xs = np.linspace(0, 1, num=n_points)
 ys = 1 - xs
 
 # compute entropy
+engs = np.zeros(n_points, )
 ents = np.zeros(n_points, )
 for i, (x, y) in enumerate(zip(xs, ys)):
     ents[i] = entropy([x, y])
+    engs[i] = x * y
 
 # plot
 f, ax = plt.subplots(1, 1, figsize=(5, 4))
-ax.plot(ents)
-ax.set_title('Entropy of Bernoulli(p)')
+ax.plot(ents, label='entropy')
+ax.plot(engs, label='energy')
+ax.set_title('Uncertainty of Bernoulli(p)')
 ax.set_xlabel('p')
-ax.set_ylabel('Entropy')
-ax.set_xticks([0, n_points//2, n_points])
-ax.set_xticklabels([0, .5, 1])
-sns.despine()
+ax.set_ylabel('Uncertainty')
+xticks = np.linspace(0, 1, num=5)
+ax.set_xticks(xticks * n_points)
+ax.set_xticklabels(xticks)
+f.legend(bbox_to_anchor=(.75, .65))
 f.tight_layout()
+sns.despine()
